@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="DownMenu">
+        <attr name="buttonNum" format="integer"/>
+        <attr name="buttonBackgroud" format="color|reference"/>
+        <attr name="buttonTextColor" format="color"/>
+        <attr name="buttonTextSize" format="dimension"/>
+    </declare-styleable>
+</resources>
