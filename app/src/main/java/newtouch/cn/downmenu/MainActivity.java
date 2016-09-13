@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import newtouch.cn.downmenu.fragment.AddressFragemnt;
 import newtouch.cn.downmenu.fragment.CatalogueFragment;
 import newtouch.cn.downmenu.fragment.SortFragment;
@@ -23,10 +25,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mButton1;
     private Button mButton2;
     private Button mButton3;
+
+    private ArrayList<Button> btns = new ArrayList<Button>();
+
     private int checkedbutton = -1;
     private FrameLayout mDownMuneContainer;
     private TextView mTextView;
     private Fragment mCurrentFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,15 +50,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initView() {
-//        AlertDialog
         mButton1 = (Button) findViewById(R.id.b1);
         mButton2 = (Button) findViewById(R.id.b2);
         mButton3 = (Button) findViewById(R.id.b3);
+        btns.add(mButton1);
+        btns.add(mButton2);
+        btns.add(mButton3);
+
         mTextView = (TextView) findViewById(R.id.tv_content);
         mDownMuneContainer = (FrameLayout) findViewById(R.id.down_menu_container);
-
-
     }
+
     public void setText(String item1,String item2) {
         closeDownMenu();
         mTextView.setText(item1 + "   " + item2);
@@ -65,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mButton1.setOnClickListener(this);
         mButton2.setOnClickListener(this);
         mButton3.setOnClickListener(this);
+
         FragmentManager fm = getSupportFragmentManager();
 
         // 开启事务
@@ -76,9 +85,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Fragment addressFragment =new AddressFragemnt();
         Fragment catalogueFragment =new CatalogueFragment();
         Fragment sortFragment =new SortFragment();
-        transaction.add(R.id.down_menu_container,addressFragment,R.id.b1+"");
-        transaction.add(R.id.down_menu_container,catalogueFragment,R.id.b2+"");
-        transaction.add(R.id.down_menu_container,sortFragment,R.id.b3+"");
+        transaction.add(R.id.down_menu_container, addressFragment, R.id.b1 + "");
+        transaction.add(R.id.down_menu_container, catalogueFragment, R.id.b2 + "");
+        transaction.add(R.id.down_menu_container, sortFragment, R.id.b3 + "");
         transaction.hide(addressFragment);
         transaction.hide(catalogueFragment);
         transaction.hide(sortFragment);
@@ -141,9 +150,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         transaction.commit();
     }
+
     @Override
     public void onClick(View v) {
-        setButtonColor(v.getId());
+        // 突出当前按过的按钮的颜色
+        setBtnsColor(v);
+
         //连续点击同一个button;
         if (checkedbutton == v.getId()){
             DismissAnimtion(mDownMuneContainer);
@@ -221,48 +233,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         chooseFragmentById(id);
     }
 
-    private void setButtonColor(int id) {
-        switch (id){
-            case R.id.b1:setBtn1();
-                    break;
-            case R.id.b2:setBtn2();
-                break;
-            case R.id.b3:setBtn3();
-                break;
-        }
-    }
     private void setBtnClose() {
-        mButton1.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-        mButton2.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-        mButton3.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-    }
-
-
-    private void setBtn1() {
-        if (checkedbutton != R.id.b1){
-            mButton1.setTextColor(getResources().getColor(R.color.buttonSelectColor));
-            mButton2.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-            mButton3.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-        }else{
-            mButton1.setTextColor(getResources().getColor(R.color.buttonNormalColor));
+        for(int i = 0; i < btns.size(); i++) {
+            btns.get(i).setTextColor(getResources().getColor(R.color.buttonNormalColor));
         }
     }
-    private void setBtn2() {
-        if (checkedbutton != R.id.b2){
-            mButton2.setTextColor(getResources().getColor(R.color.buttonSelectColor));
-            mButton1.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-            mButton3.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-        }else{
-            mButton2.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-        }
-    }
-    private void setBtn3() {
-        if (checkedbutton != R.id.b3){
-            mButton3.setTextColor(getResources().getColor(R.color.buttonSelectColor));
-            mButton2.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-            mButton1.setTextColor(getResources().getColor(R.color.buttonNormalColor));
-        }else{
-            mButton3.setTextColor(getResources().getColor(R.color.buttonNormalColor));
+
+    private void setBtnsColor(View view) {
+        for(int i = 0; i < btns.size(); i++) {
+            if(view.getId() == btns.get(i).getId())
+                btns.get(i).setTextColor(getResources().getColor(R.color.buttonSelectColor));
+            else
+                btns.get(i).setTextColor(getResources().getColor(R.color.buttonNormalColor));
         }
     }
 }

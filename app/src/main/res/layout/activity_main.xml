@@ -6,15 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <!--<newtouch.cn.downmenu.view.DownMenu-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:layout_width="match_parent"-->
-        <!--custom:buttonNum="3"-->
-        <!--custom:buttonBackgroud="@drawable/bt_bk"-->
-        <!--custom:buttonTextColor="@color/itemTextColor"-->
-        <!--android:id="@+id/down_menu">-->
 
-    <!--</newtouch.cn.downmenu.view.DownMenu>-->
     <LinearLayout
         android:id="@+id/button_group"
         android:layout_width="match_parent"
